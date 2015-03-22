@@ -2,6 +2,8 @@
 
 To Run:
 
+Prerequisite: Java 1.8
+
 <ul>
 <li>./gradlew clean build</li>
 <li>./gradlew bootRun</li>
