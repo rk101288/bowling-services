@@ -132,7 +132,11 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
         Jackpot jackpot = repository.findTopByOrderByDrawnDateDesc();
         BigDecimal totalAmount = ticketService.getTotalAmount();
 
-        return (jackpot == null) ? totalAmount : totalAmount.add(jackpot.getRolloverAmount());
+        if(jackpot == null || jackpot.getRolloverAmount() == null) {
+            return totalAmount;
+        } else {
+            return totalAmount.add(jackpot.getRolloverAmount());
+        }
     }
 
     /**
