@@ -27,7 +27,7 @@ public class TicketController extends AbstractController<Ticket, TicketService> 
      * @return CREATED response upon success
      */
     @RequestMapping(value = "/createTickets", method = RequestMethod.POST)
-    public ResponseEntity add (@RequestBody TicketCreationRequest request) {
+    public ResponseEntity addTickets(@RequestBody TicketCreationRequest request) {
         service.createTickets(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
