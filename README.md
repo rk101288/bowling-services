@@ -13,7 +13,7 @@ Use postman.json to import collection in POSTMAN (Chrome plugin) REST Client.
 
 Endpoints are:
 <ol>
-<l1>http://localhost:8080/bowler</li>
+<li>http://localhost:8080/bowler</li>
 <li>http://localhost:8080/ticket</li>
 <li>http://localhost:8080/jackpot</li>
 </ol>
