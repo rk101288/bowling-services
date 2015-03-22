@@ -21,7 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/jackpot")
 public class JackpotController {
-    private static final String MISMATCH_IDS = "ID in the path and the entity should match for Update.";
+    private static final String MISMATCH_IDS = "ID in the path should match the ID of the entity for update.";
 
     @Autowired
     private JackpotService service;
