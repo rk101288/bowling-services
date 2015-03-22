@@ -3,9 +3,10 @@
 To Run:
 
 ./gradlew clean build
+
 ./gradlew bootRun
 
-Application will try to run on 8080 port.
+Application will run on 8080 port.
 
 Use postman.json to import collection in POSTMAN (Chrome plugin) REST Client. 
 
