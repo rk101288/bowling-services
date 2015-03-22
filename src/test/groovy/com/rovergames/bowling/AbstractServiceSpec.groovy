@@ -1,4 +1,4 @@
-package com.rovergames.bowling.service
+package com.rovergames.bowling
 
 import com.rovergames.TestEntity
 import com.rovergames.TestRepository
