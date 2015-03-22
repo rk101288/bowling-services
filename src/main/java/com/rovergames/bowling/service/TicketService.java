@@ -26,6 +26,10 @@ public class TicketService extends AbstractService<Ticket, TicketRepository> {
     @Autowired
     private BowlerService bowlerService;
 
+    /**
+     * Chooses a winner from the bowlers participating in the current jackpot
+     * @return The chosen winner
+     */
     public Optional<Bowler> findJackpotCandidate() {
         List<String> ticketIds = repository.findAllIds();
 
@@ -45,6 +49,10 @@ public class TicketService extends AbstractService<Ticket, TicketRepository> {
         return bowlerService.getById(ticket.getBowlerId());
     }
 
+    /**
+     * Creates tickets for a bowler
+     * @param request Includes the number of tickets, bowler id, and how much they paid for the tickets
+     */
     public void createTickets (TicketCreationRequest request) {
         Optional<Bowler> bowler = bowlerService.getById(request.getBowlerId());
 
@@ -61,6 +69,10 @@ public class TicketService extends AbstractService<Ticket, TicketRepository> {
         }
     }
 
+    /**
+     * Gets the total amount of money spent towards this round of the jackpot - doesn't include carry over
+     * @return The monetary value of tickets purchased in this round of the jackpot - doesn't include carry over
+     */
     public BigDecimal getTotalAmount() {
         BigDecimal total = repository.getTotalAmount();
 
@@ -71,6 +83,10 @@ public class TicketService extends AbstractService<Ticket, TicketRepository> {
         }
     }
 
+    /**
+     * Deletes tickets purchased prior to the selected jackpot drawing date
+     * @param date The jackpot drawing date
+     */
     public void deleteTicketsOlderThan(Date date) {
         List<Ticket> tickets = repository.findByCreatedDateLessThan(date);
         tickets.forEach(repository::delete);

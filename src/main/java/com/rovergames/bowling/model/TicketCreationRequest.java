@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 /**
  * User: Richa
  * Date: 3/21/15
+ * The request object when a bowler purchases tickets at the bowling alley.
+ * The amount paid is the total amount paid for all of the tickets in the response.
  */
 public class TicketCreationRequest {
     private String bowlerId;

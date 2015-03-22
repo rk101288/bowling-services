@@ -20,6 +20,11 @@ import java.util.Optional;
 @RequestMapping("/bowler")
 public class BowlerController extends AbstractController<Bowler, BowlerService> {
 
+    /**
+     * Find a bowler based on their email address
+     * @param email The email address of the bowler
+     * @return The bowler
+     */
     @RequestMapping(value = "/email/{email:.+}", method = RequestMethod.GET)
     public ResponseEntity<Bowler> getByEmail(@PathVariable String email) {
         Optional<Bowler> bowler = service.getByEmail(email);

@@ -1,0 +1,128 @@
+==========================================================================================
+
+Bowling-Services API Documentation
+
+==========================================================================================
+
+[NOTE: The following bracketed text is the name of the API call explained below]
+
+The expected simple workflow for this application is as follows:
+
+	Bowler(s) are created in the system - unique by their email address
+		[Create Bowler]
+	Get the bowler id by retrieving the bowler by email address
+		[Get Bowler by Id/Email Address]
+	Bowler(s) buy tickets
+		[Create Tickets]
+	Jackpot is drawn to find winner
+		[Draw Jackpot] <-- returns a url for the jackpot in the Location Header
+	Jackpot - supplied above - is updated with # pins knocked down and price is distributed
+		[Update Jackpot]
+	Retrieve the jackpot to determine the final stats of amount, amountPaid, rolloverAmount, etc.
+		[Get Jackpot by Id]
+
+Additional utility calls
+
+	Look up bowlers
+		[Get Bowler by Id/Email Address]
+	Look up Jackpot
+		[Get Jackpot by Id]	
+	Look up winning jackpots by a bowler
+		[Get Jackpot by BowlerId/Email Address]	
+	Look up current value of running jackpot
+		[Get the Current Jackpot]
+
+==========================================================================================
+
+API CALLS:
+
+Please include the following header in your api calls:
+	Content-Type: application/json
+
+Create Bowler
+	Summary: 
+		Creates a bowler in the system - unique by their email addres
+	Url: 
+		http://localhost:8080/bowler
+	Method: 
+		POST
+	Payload Example:
+		{"email": "test@rovergames.com"}
+	
+Create Tickets
+	Summary:
+		Creates tickets in the system for a given bowler. The amount paid is specified to support various paying structures. For example: $1 for 1 or $5 or 6. So use the total amount paid for ALL tickets in the request.
+	Url: 
+		http://localhost:8080/ticket/createTickets
+	Method: 
+		POST
+	Payload Example:
+		{
+			"bowlerId": "402881914c4004e9014c40053f540000",
+ 			"numberOfTickets": 5,
+ 			"amountPaid": 25
+		}
+
+Get Bowler by Id/Email Address:
+	Summary: 
+		Returns the selected bowler
+	Url: 
+		By Id: http://localhost:8080/bowler/{id}
+		By Email: http://localhost:8080/bowler/email/{email}
+	Method: 
+		GET
+
+Get Jackpot by Id:
+	Summary:
+		Look up a past jackpot by its id
+	Url:
+		http://localhost:8080/jackpot/{id}
+	Method:
+		GET
+
+Get Jackpot by BowlerId/Email Address:
+	Summary:
+		Returns the past jackpots won by the given user
+	Url: 
+		By Id: http://localhost:8080/jackpot/bowlerId/{id}
+		By Email: http://localhost:8080/jackpot/bowlerId/{email}
+	Method:
+		GET
+
+Get the Current Jackpot:
+	Summary:
+		Returns the value of the current jackpot
+	Url:
+		http://localhost:8080/jackpot/currentJackpotValue
+	Method:
+		GET
+
+Draw Jackpot:
+	Summary:
+		Choose the jackpot winner. This will only choose the winner and payout will need to be updated after bowler throws his next ball.
+	Url: 
+		http://localhost:8080/jackpot/drawJackpot
+	Method:
+		GET
+	Returns:
+		The location of the new jackpot in the header: Location
+			Example: http://localhost:8080/jackpot/402881914c421d21014c422055bc0039
+
+Update Jackpot:
+	Summary:
+		Pass in the payload of the jackpot with the updated pins knocked down. This will calculate the prize to be paid out and it will roll over the necessary amount.
+	Url:
+		http://localhost:8080/jackpot/{id}
+	Method:
+		PUT
+	Example Payload:
+		{
+		    "id": "402881914c400c45014c400d4390000c",
+		    "amountPaid": null,
+		    "amount": 65,
+		    "rolloverAmount": null,
+		    "drawnDate": 1427003753355,
+		    "numberOfPins": 9,            <------------------ Update pins here 
+		    "bowlerId": "402881914c400c45014c400c97b80006",
+		    "inProgress": true
+		}

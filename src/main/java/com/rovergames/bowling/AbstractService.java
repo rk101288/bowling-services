@@ -19,10 +19,20 @@ public abstract class AbstractService<E extends AbstractEntity, R extends CrudRe
     @Autowired
     public R repository;
 
+    /**
+     * Returns an entity by its id
+     * @param id The id of the entity
+     * @return The entity
+     */
     public Optional<E> getById(String id) {
         return Optional.ofNullable(repository.findOne(id));
     }
 
+    /**
+     * Creates an entity
+     * @param entity The entity to create in db
+     * @return The newly created entity
+     */
     public E create(E entity) {
         if(entity.getId() != null) {
             throw new BadRequestException(String.format(ID_ON_POST));
@@ -31,6 +41,10 @@ public abstract class AbstractService<E extends AbstractEntity, R extends CrudRe
         return repository.save(entity);
     }
 
+    /**
+     * Deletes an entity
+     * @param id The id of the entity to delete
+     */
     public void delete(String id) {
         if(repository.findOne(id) == null) {
             throw new ResourceNotFoundException(String.format(NOT_FOUND, id));

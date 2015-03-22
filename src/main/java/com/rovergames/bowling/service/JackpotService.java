@@ -35,6 +35,10 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
     @Autowired
     private TicketService ticketService;
 
+    /**
+     * Triggers the drawing of a jackpot. Creates a new jackpot item with the chosen winner.
+     * @return
+     */
     public Jackpot drawJackpot() {
         checkJackpotEligibility();
 
@@ -54,6 +58,9 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
         return saveJackpot(bowler);
     }
 
+    /**
+     * Checks if there's a jackpot currently in progress
+     */
     private void checkJackpotEligibility() {
         Jackpot jackpotInProgress = repository.findByInProgress(true);
 
@@ -62,6 +69,11 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
         }
     }
 
+    /**
+     * Saves the jackpot with the chosen winner
+     * @param bowler The chosen bowler for the jackpot
+     * @return The new jackpot
+     */
     private Jackpot saveJackpot(Optional<Bowler> bowler) {
         Jackpot lastJackpot = repository.findTopByOrderByDrawnDateDesc();
 
@@ -78,6 +90,10 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
         return repository.save(jackpot);
     }
 
+    /**
+     * Finalizes a jackpot after the chosen winner attempts their strike
+     * @param jackpot The jackpot to update
+     */
     public void updateJackpot(Jackpot jackpot) {
         if(jackpot.getNumberOfPins() < 0) {
             throw new BadRequestException(INVALID_NUMBER_OF_PINS);
@@ -108,6 +124,10 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
         ).start();
     }
 
+    /**
+     * Returns the jackpot value of the current jackpot
+     * @return The monetary value of the current jackpot
+     */
     public BigDecimal getCurrentJackpotValue() {
         Jackpot jackpot = repository.findTopByOrderByDrawnDateDesc();
         BigDecimal totalAmount = ticketService.getTotalAmount();
@@ -115,10 +135,20 @@ public class JackpotService extends AbstractService<Jackpot, JackpotRepository> 
         return (jackpot == null) ? totalAmount : totalAmount.add(jackpot.getRolloverAmount());
     }
 
+    /**
+     * Locates all jackpots that a bowler won
+     * @param bowlerId The bowlerId of the bowler
+     * @return List of jackpots the bowler won
+     */
     public List<Jackpot> findJackpotsByBowlerId(String bowlerId) {
         return repository.findByBowlerId(bowlerId);
     }
 
+    /**
+     * Locates all jackpots that a bowler won
+     * @param email The email address of the bowler
+     * @return List of jackpots the bowler won
+     */
     public List<Jackpot> findJackpotsByBowlerEmailAddress(String email) {
         Optional<Bowler> bowler = bowlerService.getByEmail(email);
 

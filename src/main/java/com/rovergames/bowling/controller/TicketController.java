@@ -21,6 +21,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/ticket")
 public class TicketController extends AbstractController<Ticket, TicketService> {
 
+    /**
+     * Creates tickets for a bowler
+     * @param request The request of how many tickets a particular bowler is purchasing and how much they paid
+     * @return CREATED response upon success
+     */
     @RequestMapping(value = "/createTickets", method = RequestMethod.POST)
     public ResponseEntity add (@RequestBody TicketCreationRequest request) {
         service.createTickets(request);

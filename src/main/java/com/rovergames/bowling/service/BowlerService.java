@@ -13,6 +13,11 @@ import java.util.Optional;
  */
 @Service
 public class BowlerService extends AbstractService<Bowler, BowlerRepository>{
+    /**
+     * Finds a bowler based on their email address
+     * @param email The bowler's email address
+     * @return The bowler
+     */
     public Optional<Bowler> getByEmail(String email) {
         return repository.findByEmail(email);
     }

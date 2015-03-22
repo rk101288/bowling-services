@@ -22,6 +22,11 @@ public abstract class AbstractController<E extends AbstractEntity, S extends Ser
     @Autowired
     public S service;
 
+    /**
+     * Search for an entity by its id
+     * @param id The id of the entity
+     * @return The entity
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<E> getById(@PathVariable String id) {
         //TODO Conditional GET.
@@ -34,6 +39,11 @@ public abstract class AbstractController<E extends AbstractEntity, S extends Ser
         }
     }
 
+    /**
+     * Creates a new entity
+     * @param entity Entity to create
+     * @return Created entity
+     */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<E> add (@RequestBody E entity) {
         E result = service.create(entity);
@@ -46,6 +56,10 @@ public abstract class AbstractController<E extends AbstractEntity, S extends Ser
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
+    /**
+     * Deletes an entity
+     * @param id Id of the entity to delete
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete (@PathVariable String id){
         service.delete(id);
